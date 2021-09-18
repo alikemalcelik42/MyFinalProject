@@ -13,12 +13,16 @@ namespace ConsoleUI
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
 
-            var productDetails = productManager.GetProductDetails();
+            var result = productManager.GetAll();
 
-            foreach(var productDetail in productDetails)
+            if (result.Success == true)
             {
-                Console.WriteLine($"{productDetail.ProductName} / {productDetail.CategoryName}");
+                foreach (var product in result.Data)
+                {
+                    Console.WriteLine($"{product.ProductName}");
+                }
             }
+            Console.WriteLine(result.Message);
         }
     }
 }
