@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using System;
@@ -10,30 +11,17 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            ProductManager productManager = new ProductManager(new InMemoryProductDal());
+            ProductManager productManager = new ProductManager(new EfProductDal());
 
-            Product product = new Product()
-            {
-                ProductId = 4,
-                CategoryId = 2,
-                ProductName = "Tablet",
-                UnitsInStock = 300,
-                UnitPrice = 4000
-            };
-
-            productManager.Add(product);
-            product.UnitPrice = 3000;
-            productManager.Update(product);
-
-            List<Product> products = productManager.GetAll();
+            List<Product> products = productManager.GetAllByUnitPrice(50, 100);
 
             foreach(Product _product in products)
             {
-                Console.WriteLine(_product.ProductId);
-                Console.WriteLine(_product.CategoryId);
-                Console.WriteLine(_product.ProductName);
-                Console.WriteLine(_product.UnitsInStock);
-                Console.WriteLine(_product.UnitPrice);
+                Console.WriteLine($"ProductId = {_product.ProductId}");
+                Console.WriteLine($"CategoryId = {_product.CategoryId}");
+                Console.WriteLine($"ProductName = {_product.ProductName}");
+                Console.WriteLine($"UnitsInStock = {_product.UnitsInStock}");
+                Console.WriteLine($"UnitPrice = {_product.UnitPrice}");
                 Console.WriteLine();
             }
         }

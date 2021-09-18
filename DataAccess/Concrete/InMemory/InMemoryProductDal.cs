@@ -3,6 +3,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace DataAccess.Concrete.InMemory
@@ -21,30 +22,35 @@ namespace DataAccess.Concrete.InMemory
             }; 
         }
 
-        public void Add(Product product)
+        public void Add(Product entity)
         {
-            _products.Add(product);
+            _products.Add(entity);
         }
 
-        public void Delete(Product product)
+        public void Delete(Product entity)
         {
-            Product deleteProduct = _products.SingleOrDefault(p => p.ProductId == product.ProductId);
+            Product deleteProduct = _products.SingleOrDefault(p => p.ProductId == entity.ProductId);
             _products.Remove(deleteProduct);
         }
 
-        public List<Product> GetAll()
+        public Product Get(Expression<Func<Product, bool>> filter = null)
+        {
+            return _products[0];
+        }
+
+        public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
         {
             return _products;
         }
 
-        public void Update(Product product)
+        public void Update(Product entity)
         {
-            Product updateProduct = _products.SingleOrDefault(p => p.ProductId == product.ProductId);
+            Product updateProduct = _products.SingleOrDefault(p => p.ProductId == entity.ProductId);
 
-            updateProduct.CategoryId = product.CategoryId;
-            updateProduct.ProductName = product.ProductName;
-            updateProduct.UnitsInStock = product.UnitsInStock;
-            updateProduct.UnitPrice = product.UnitPrice;
+            updateProduct.CategoryId = entity.CategoryId;
+            updateProduct.ProductName = entity.ProductName;
+            updateProduct.UnitsInStock = entity.UnitsInStock;
+            updateProduct.UnitPrice = entity.UnitPrice;
         }
     }
 }
