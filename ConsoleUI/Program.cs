@@ -13,16 +13,11 @@ namespace ConsoleUI
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
 
-            List<Product> products = productManager.GetAllByUnitPrice(50, 100);
+            var productDetails = productManager.GetProductDetails();
 
-            foreach(Product _product in products)
+            foreach(var productDetail in productDetails)
             {
-                Console.WriteLine($"ProductId = {_product.ProductId}");
-                Console.WriteLine($"CategoryId = {_product.CategoryId}");
-                Console.WriteLine($"ProductName = {_product.ProductName}");
-                Console.WriteLine($"UnitsInStock = {_product.UnitsInStock}");
-                Console.WriteLine($"UnitPrice = {_product.UnitPrice}");
-                Console.WriteLine();
+                Console.WriteLine($"{productDetail.ProductName} / {productDetail.CategoryName}");
             }
         }
     }
