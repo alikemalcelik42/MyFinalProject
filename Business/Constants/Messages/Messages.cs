@@ -13,5 +13,7 @@ namespace Business.Constants.Messages
         public static string ProductDeleted = "Ürün silindi";
         public static string ProductNameInvalid = "Ürün ismi geçersiz";
         public static string MaintantenceTime = "Sistem bakımda";
+        public static string ProductCountOfCategoryError = "Bir kategoride en fazla 10 ürün olabilir";
+        public static string ProductNameAlredyExists = "Ürün ismi zaten var";
     }
 }
