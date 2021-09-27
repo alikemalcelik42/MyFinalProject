@@ -48,8 +48,11 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetAll()
         {
-            if (DateTime.Now.Hour == 20)
-                return new ErrorDataResult<List<Product>>(Messages.MaintantenceTime);
+            IResult businessResult = BusinessRules.Run(
+                CheckIfMaintantenceTime());
+
+            if (businessResult != null)
+                return new ErrorDataResult<List<Product>>(businessResult.Message);
             
             var result = _productDal.GetAll();
             return new SuccessDataResult<List<Product>>(result, Messages.ProductsListed);
@@ -102,6 +105,13 @@ namespace Business.Concrete
 
             if (result)
                 return new ErrorResult(Messages.ProductNameAlredyExists);
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfMaintantenceTime()
+        {
+            if (DateTime.Now.Hour == 20)
+                return new ErrorResult(Messages.MaintantenceTime);
             return new SuccessResult();
         }
     }
