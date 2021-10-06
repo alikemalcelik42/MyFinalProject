@@ -2,6 +2,8 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -29,6 +31,8 @@ namespace Business.Concrete
 
         [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
+        [PerformanceAspect(3)]
         public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(
@@ -48,6 +52,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductDeleted);
         }
 
+        [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
             IResult result = BusinessRules.Run(
@@ -83,6 +88,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ProductDetailDto>>(result, Messages.ProductsListed);
         }
 
+
         public IResult Update(Product product)
         {
             _productDal.Update(product);
@@ -111,7 +117,7 @@ namespace Business.Concrete
 
         private IResult CheckIfMaintantenceTime()
         {
-            if (DateTime.Now.Hour == 20)
+            if (DateTime.Now.Hour == 2)
                 return new ErrorResult(Messages.MaintantenceTime);
             return new SuccessResult();
         }
