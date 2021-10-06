@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -26,6 +27,7 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
@@ -48,14 +50,13 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetAll()
         {
-            IResult businessResult = BusinessRules.Run(
+            IResult result = BusinessRules.Run(
                 CheckIfMaintantenceTime());
 
-            if (businessResult != null)
-                return new ErrorDataResult<List<Product>>(businessResult.Message);
+            if (result != null)
+                return new ErrorDataResult<List<Product>>(result.Message);
             
-            var result = _productDal.GetAll();
-            return new SuccessDataResult<List<Product>>(result, Messages.ProductsListed);
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
         }
 
         public IDataResult<List<Product>> GetAllByCategoryId(int categoryId)
