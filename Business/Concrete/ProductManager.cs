@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Business.BusinessAspects.Autofac;
+using Core.Aspects.Autofac.Secure;
 using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
@@ -45,6 +45,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
         }
 
+        [SecuredOperation("product.delete,admin")]
+        [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Delete(Product product)
         {
             _productDal.Delete(product);
@@ -75,6 +78,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(result, Messages.ProductsListed);
         }
 
+        [CacheAspect]
         public IDataResult<Product> GetById(int id)
         {
             var result = _productDal.Get(p => p.ProductId == id);
@@ -87,7 +91,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ProductDetailDto>>(result, Messages.ProductsListed);
         }
 
-
+        [SecuredOperation("product.update,admin")]
+        [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
             _productDal.Update(product);

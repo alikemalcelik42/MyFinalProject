@@ -13,6 +13,11 @@ namespace Business.Constants.Messages
         public static string ProductFinded = "Ürün bulundu";
         public static string ProductUpdated = "Ürün güncellendi";
         public static string ProductDeleted = "Ürün silindi";
+        public static string CategoryAdded = "Kategori eklendi";
+        public static string CategoriesListed = "Kategoriler listelendi";
+        public static string CategoryFinded = "Kategori bulundu";
+        public static string CategoryUpdated = "Kategori güncellendi";
+        public static string CategoryDeleted = "Kategori silindi";
         public static string ProductNameInvalid = "Ürün ismi geçersiz";
         public static string MaintantenceTime = "Sistem bakımda";
         public static string ProductCountOfCategoryError = "Bir kategoride en fazla 10 ürün olabilir";
