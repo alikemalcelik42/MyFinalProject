@@ -32,7 +32,6 @@ namespace Business.Concrete
         [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
-        [PerformanceAspect(3)]
         public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(
