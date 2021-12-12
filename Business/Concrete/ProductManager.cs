@@ -1,22 +1,20 @@
 ﻿using Business.Abstract;
-using Core.Aspects.Autofac.Secure;
 using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
-using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Logging;
+using Core.Aspects.Autofac.Secure;
 using Core.Aspects.Autofac.Validation;
-using Core.CrossCuttingConcerns.Validation;
+using Core.CrossCuttingConcerns.Logging.Concrete;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
-using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Business.Concrete
 {
@@ -55,6 +53,7 @@ namespace Business.Concrete
         }
 
         [CacheAspect]
+        [LogAspect(typeof(FileLogger))]
         public IDataResult<List<Product>> GetAll()
         {
             IResult result = BusinessRules.Run(
@@ -62,10 +61,11 @@ namespace Business.Concrete
 
             if (result != null)
                 return new ErrorDataResult<List<Product>>(result.Message);
-            
+
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
         }
 
+        [LogAspect(typeof(FileLogger))]
         public IDataResult<List<Product>> GetAllByCategoryId(int categoryId)
         {
             var result = _productDal.GetAll(p => p.CategoryId == categoryId);
@@ -103,7 +103,7 @@ namespace Business.Concrete
         private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
         {
             var result = _productDal.GetAll(p => p.CategoryId == categoryId);
-            if(result.Count >= 10)
+            if (result.Count >= 10)
             {
                 return new ErrorResult(Messages.ProductCountOfCategoryError);
             }
