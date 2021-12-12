@@ -30,6 +30,7 @@ namespace Business.Concrete
         [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
+        [LogAspect(typeof(FileLogger))]
         public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(
@@ -46,6 +47,7 @@ namespace Business.Concrete
         [SecuredOperation("product.delete,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
+        [LogAspect(typeof(FileLogger))]
         public IResult Delete(Product product)
         {
             _productDal.Delete(product);
@@ -53,7 +55,6 @@ namespace Business.Concrete
         }
 
         [CacheAspect]
-        [LogAspect(typeof(FileLogger))]
         public IDataResult<List<Product>> GetAll()
         {
             IResult result = BusinessRules.Run(
@@ -94,6 +95,7 @@ namespace Business.Concrete
         [SecuredOperation("product.update,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
+        [LogAspect(typeof(FileLogger))]
         public IResult Update(Product product)
         {
             _productDal.Update(product);

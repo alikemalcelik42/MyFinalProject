@@ -11,6 +11,8 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.CrossCuttingConcerns.Logging.Concrete;
+using Core.Aspects.Autofac.Logging;
 
 namespace Business.Concrete
 {
@@ -26,6 +28,7 @@ namespace Business.Concrete
         [SecuredOperation("category.add,admin")]
         [ValidationAspect(typeof(CategoryValidator))]
         [CacheRemoveAspect("ICategoryService.Get")]
+        [LogAspect(typeof(FileLogger))]
         public IResult Add(Category category)
         {
             _categoryDal.Add(category);
@@ -35,6 +38,7 @@ namespace Business.Concrete
         [SecuredOperation("category.add,admin")]
         [ValidationAspect(typeof(CategoryValidator))]
         [CacheRemoveAspect("ICategoryService.Get")]
+        [LogAspect(typeof(FileLogger))]
         public IResult Delete(Category category)
         {
             _categoryDal.Delete(category);
@@ -56,6 +60,7 @@ namespace Business.Concrete
         [SecuredOperation("category.add,admin")]
         [ValidationAspect(typeof(CategoryValidator))]
         [CacheRemoveAspect("ICategoryService.Get")]
+        [LogAspect(typeof(FileLogger))]
         public IResult Update(Category category)
         {
             _categoryDal.Update(category);
