@@ -32,13 +32,13 @@ namespace Core.Aspects.Autofac.Logging
 
         private string GetExceptionDetail(IInvocation invocation, Exception e)
         {
-            var data = $"-> {e.Message}\n";
+            var data = $"-> Error: {e.Message}\n";
             return data;
         }
 
         private string GetSuccessDetail(IInvocation invocation)
         {
-            var data = $"-> {invocation.ReturnValue}\n";
+            var data = $"-> Value: {invocation.ReturnValue}\n";
             return data;
         }
 
