@@ -1,12 +1,11 @@
-﻿using Core.Extensions;
+﻿using Castle.DynamicProxy;
+using Core.Extensions;
+using Core.Utilities.Constants;
 using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Core.Aspects.Autofac.Secure
 {
@@ -32,7 +31,7 @@ namespace Core.Aspects.Autofac.Secure
                     return;
                 }
             }
-            throw new Exception("Yetkiniz yok!");
+            throw new Exception(Messages.AuthorizationDenied);
         }
     }
 }

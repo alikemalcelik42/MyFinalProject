@@ -1,6 +1,7 @@
 ﻿
 using Castle.DynamicProxy;
 using Core.CrossCuttingConcerns.Logging.Abstract;
+using Core.Utilities.Constants;
 using Core.Utilities.Interceptors;
 using System;
 using System.Linq;
@@ -15,38 +16,26 @@ namespace Core.Aspects.Autofac.Logging
         {
             if (!typeof(ILogger).IsAssignableFrom(loggerType))
             {
-                throw new System.Exception("It's not logging class");
+                throw new System.Exception(Messages.NotLoggingClass);
             }
 
             _loggingType = loggerType;
         }
 
-        private string GetLogDetail(IInvocation invocation)
+        private string GetExceptionDetail(IInvocation invocation, Exception e)
         {
             var methodName = string.Format($"{invocation.Method.ReflectedType.FullName}.{invocation.Method.Name}");
             var arguments = invocation.Arguments.ToList();
-            var data = $"{methodName}({string.Join(",", arguments.Select(x => x?.ToString() ?? "<Null>"))}) : {DateTime.Now}\n";
-
-            return data;
-        }
-
-        private string GetExceptionDetail(IInvocation invocation, Exception e)
-        {
-            var data = $"-> Error: {e.Message}\n";
+            var data = $"{methodName}({string.Join(",", arguments.Select(x => x?.ToString() ?? "<Null>"))}) -> Error: {e.Message} : {DateTime.Now}\n";
             return data;
         }
 
         private string GetSuccessDetail(IInvocation invocation)
         {
-            var data = $"-> Value: {invocation.ReturnValue}\n";
+            var methodName = string.Format($"{invocation.Method.ReflectedType.FullName}.{invocation.Method.Name}");
+            var arguments = invocation.Arguments.ToList();
+            var data = $"{methodName}({string.Join(",", arguments.Select(x => x?.ToString() ?? "<Null>"))}) -> Result: {invocation.ReturnValue} : {DateTime.Now}\n";
             return data;
-        }
-
-        protected override void OnBefore(IInvocation invocation)
-        {
-            var logger = (ILogger)Activator.CreateInstance(_loggingType);
-            var data = GetLogDetail(invocation);
-            logger.Log(data);
         }
 
         protected override void OnException(IInvocation invocation, Exception e)

@@ -3,6 +3,7 @@ using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Logging;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Secure;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Logging.Concrete;
@@ -66,7 +67,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
         }
 
-        [LogAspect(typeof(FileLogger))]
         public IDataResult<List<Product>> GetAllByCategoryId(int categoryId)
         {
             var result = _productDal.GetAll(p => p.CategoryId == categoryId);
@@ -79,13 +79,14 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(result, Messages.ProductsListed);
         }
 
-        [CacheAspect]
         public IDataResult<Product> GetById(int id)
         {
             var result = _productDal.Get(p => p.ProductId == id);
             return new SuccessDataResult<Product>(result, Messages.ProductsListed);
         }
 
+        [PerformanceAspect(3)]
+        [CacheAspect]
         public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
             var result = _productDal.GetProductDetails();
