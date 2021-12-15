@@ -1,8 +1,7 @@
 ﻿using Castle.DynamicProxy;
+using Core.Entities.DTOs;
 using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
-using Core.Utilities.Results.Abstract;
-using Core.Utilities.Results.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,19 +9,6 @@ using System.Collections.Generic;
 
 namespace Core.Aspects.Autofac.IpBan
 {
-
-    public class IpDetailDto
-    {
-        public string IpAdress { get; set; }
-        public DateTime Time { get; set; }
-        public int WarningCount { get; set; }
-    }
-
-    public class BannedIpDetailDto
-    {
-        public string IpAdress { get; set; }
-        public DateTime BanFinishTime { get; set; }
-    }
 
     public class IpBanAspect : MethodInterception
     {
@@ -45,7 +31,7 @@ namespace Core.Aspects.Autofac.IpBan
 
             foreach (var ipDetail in _ipDetails)
             {
-                if(ipDetail.IpAdress == ipAdress)
+                if (ipDetail.IpAdress == ipAdress)
                 {
                     if (ipDetail.WarningCount >= _maxWarningCount - 1)
                     {
@@ -60,7 +46,7 @@ namespace Core.Aspects.Autofac.IpBan
                     }
 
                     var interval = DateTime.Now - ipDetail.Time;
-                    if(interval.Milliseconds < _maxIntervalTime)
+                    if (interval.Milliseconds < _maxIntervalTime)
                     {
                         ipDetail.WarningCount++;
                     }
@@ -73,7 +59,7 @@ namespace Core.Aspects.Autofac.IpBan
                 Time = DateTime.Now,
                 WarningCount = 0
             });
-           
+
         }
     }
 }
