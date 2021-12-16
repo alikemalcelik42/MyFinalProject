@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Business.BusinessAspects.Autofac
 {
 
-    public class IpBanAspect : MethodInterception
+    public class IpBan : MethodInterception
     {
         private IHttpContextAccessor _httpContextAccessor;
         private List<IpDetailDto> _ipDetails;
@@ -18,7 +18,7 @@ namespace Business.BusinessAspects.Autofac
         public readonly int _banDuration = 60;
         public readonly double _maxIntervalTime = 50;
 
-        public IpBanAspect(int banDuration = 60)
+        public IpBan(int banDuration = 60)
         {
             _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
             _ipDetails = new List<IpDetailDto>();

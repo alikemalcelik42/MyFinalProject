@@ -59,8 +59,7 @@ namespace Business.Concrete
         }
 
 
-        [LogAspect(typeof(DatabaseLogger))]
-        [IpBanAspect]
+        [IpBan]
         [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
