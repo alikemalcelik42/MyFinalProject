@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Entities.DTOs
+namespace Entities.DTOs
 {
     public class IpDetailDto
     {

@@ -1,18 +1,16 @@
 ﻿using Business.Abstract;
-using Core.Aspects.Autofac.Secure;
+using Business.BusinessAspects.Autofac;
 using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Logging;
 using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using Core.CrossCuttingConcerns.Logging.Concrete;
-using Core.Aspects.Autofac.Logging;
 
 namespace Business.Concrete
 {

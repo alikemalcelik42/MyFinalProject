@@ -1,13 +1,13 @@
 ﻿using Castle.DynamicProxy;
-using Core.Entities.DTOs;
 using Core.Utilities.Interceptors;
 using Core.Utilities.IoC;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 
-namespace Core.Aspects.Autofac.IpBan
+namespace Business.BusinessAspects.Autofac
 {
 
     public class IpBanAspect : MethodInterception
@@ -37,7 +37,7 @@ namespace Core.Aspects.Autofac.IpBan
                     {
                         if (ipDetail.Time.AddSeconds(_banDuration) > DateTime.Now)
                         {
-                            throw new Exception("IpBan");
+                            throw new Exception($"Bu ip adresi {ipDetail.Time.AddSeconds(_banDuration)} tarihine kadar banlandı.");
                         }
                         else
                         {

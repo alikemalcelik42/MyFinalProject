@@ -1,13 +1,13 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
-using Core.Aspects.Autofac.IpBan;
+using Core.Aspects.Autofac.Exception;
 using Core.Aspects.Autofac.Logging;
 using Core.Aspects.Autofac.Performance;
-using Core.Aspects.Autofac.Secure;
 using Core.Aspects.Autofac.Validation;
-using Core.CrossCuttingConcerns.Logging.Concrete;
+using Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 using Core.Utilities.Business;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
@@ -33,6 +33,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
         [LogAspect(typeof(FileLogger))]
+        [ExceptionLogAspect(typeof(FileLogger))]
         public IResult Add(Product product)
         {
             IResult result = BusinessRules.Run(
@@ -50,12 +51,15 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
         [LogAspect(typeof(FileLogger))]
+        [ExceptionLogAspect(typeof(FileLogger))]
         public IResult Delete(Product product)
         {
             _productDal.Delete(product);
             return new SuccessResult(Messages.ProductDeleted);
         }
 
+
+        [LogAspect(typeof(DatabaseLogger))]
         [IpBanAspect]
         [CacheAspect]
         public IDataResult<List<Product>> GetAll()
@@ -99,6 +103,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
         [LogAspect(typeof(FileLogger))]
+        [ExceptionLogAspect(typeof(FileLogger))]
         public IResult Update(Product product)
         {
             _productDal.Update(product);
