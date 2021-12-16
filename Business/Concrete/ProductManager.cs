@@ -58,7 +58,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductDeleted);
         }
 
-
         [IpBan]
         [CacheAspect]
         public IDataResult<List<Product>> GetAll()

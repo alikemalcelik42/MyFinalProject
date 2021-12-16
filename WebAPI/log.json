@@ -16,3 +16,64 @@
     "LogParameters": []
   }
 }
+{
+  "Message": {
+    "MethodName": "GetAll",
+    "LogParameters": []
+  }
+}
+{
+  "Message": {
+    "MethodName": "GetAll",
+    "LogParameters": []
+  }
+}
+{
+  "Message": {
+    "MethodName": "GetAllByCategoryId",
+    "LogParameters": [
+      {
+        "Name": "categoryId",
+        "Value": 1,
+        "Type": "Int32"
+      }
+    ]
+  }
+}
+{
+  "Message": {
+    "MethodName": "GetAllByCategoryId",
+    "LogParameters": [
+      {
+        "Name": "categoryId",
+        "Value": 2,
+        "Type": "Int32"
+      }
+    ]
+  }
+}
+{
+  "Message": {
+    "MethodName": "GetAllByCategoryId",
+    "LogParameters": [
+      {
+        "Name": "categoryId",
+        "Value": 1,
+        "Type": "Int32"
+      }
+    ]
+  }
+}
+{
+  "Message": {
+    "ExceptionMessage": "Sistem bakımda",
+    "MethodName": "GetAllByCategoryId",
+    "LogParameters": [
+      {
+        "Name": "categoryId",
+        "Value": 1,
+        "Type": "Int32"
+      }
+    ]
+  }
+}
