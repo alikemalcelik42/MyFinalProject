@@ -58,7 +58,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductDeleted);
         }
 
-        [SecuredOperation("admin")]
         [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
