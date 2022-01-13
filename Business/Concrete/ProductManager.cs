@@ -58,8 +58,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductDeleted);
         }
 
-        [LogAspect(typeof(FileLogger))]
-        [IpBan]
+        [SecuredOperation("admin")]
         [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {

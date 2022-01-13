@@ -1,28 +1,17 @@
 ﻿using Business.Concrete;
+using Core.CrossCuttingConcerns.Caching.Redis;
 using DataAccess.Concrete.EntityFramework;
-using DataAccess.Concrete.InMemory;
-using Entities.Concrete;
 using System;
-using System.Collections.Generic;
 
-namespace ConsoleUI
+ProductManager productManager = new ProductManager(new EfProductDal());
+
+var result = productManager.GetAll();
+
+if (result.Success == true)
 {
-    class Program
+    foreach (var product in result.Data)
     {
-        static void Main(string[] args)
-        {
-            ProductManager productManager = new ProductManager(new EfProductDal());
-
-            var result = productManager.GetAll();
-
-            if (result.Success == true)
-            {
-                foreach (var product in result.Data)
-                {
-                    Console.WriteLine($"{product.ProductName}");
-                }
-            }
-            Console.WriteLine(result.Message);
-        }
+        Console.WriteLine($"{product.ProductName}");
     }
 }
+Console.WriteLine(result.Message);
